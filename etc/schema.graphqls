@@ -1,0 +1,30 @@
+# Mageplaza
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Mageplaza.com license that is
+# available through the world-wide-web at this URL:
+# https://www.mageplaza.com/LICENSE.txt
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade this extension to newer
+# version in the future.
+#
+# @category    Mageplaza
+# @package     Mageplaza_CompanyAccountsGraphQl
+# @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+# @license     https://www.mageplaza.com/LICENSE.txt
+
+type Query {
+    mpCompanyAccountsDownloadable(
+    ): [DownloadableOutput] @resolver(class: "\\Mageplaza\\CompanyAccountsGraphQl\\Model\\Resolver\\Downloadable") @doc(description: "Query to get downloadable product of customer")
+}
+
+type DownloadableOutput {
+    order_increment_id: String @doc(description: "Order Increment Id")
+    date: String @doc(description: "Date")
+    status: String @doc(description: "Status")
+    download_url: String @doc(description: "Download URL")
+    remaining_downloads: String @doc(description: "Remaining Downloads")
+}
