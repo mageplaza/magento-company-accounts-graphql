@@ -27,10 +27,10 @@ use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 
 /**
- * Class Downloadable
+ * Class Config
  * @package Mageplaza\CompanyAccountsGraphQl\Model\Resolver
  */
-class Downloadable extends AbstractResolver
+class Config extends AbstractResolver
 {
     /**
      * @inheritdoc
@@ -39,6 +39,6 @@ class Downloadable extends AbstractResolver
     {
         parent::resolve($field, $context, $info, $value, $args);
 
-        return $this->companyManagement->getDownloadableItems($this->customerId);
+        return $this->companyManagement->getConfig();
     }
 }

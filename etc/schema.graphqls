@@ -17,8 +17,12 @@
 # @license     https://www.mageplaza.com/LICENSE.txt
 
 type Query {
-    mpCompanyAccountsDownloadable(
-    ): [DownloadableOutput] @resolver(class: "\\Mageplaza\\CompanyAccountsGraphQl\\Model\\Resolver\\Downloadable") @doc(description: "Query to get downloadable product of customer")
+    mpCompanyAccountsDownloadable: [DownloadableOutput] @resolver(class: "\\Mageplaza\\CompanyAccountsGraphQl\\Model\\Resolver\\Downloadable") @doc(description: "Query to get downloadable product of customer")
+    mpCompanyAccounts: CompanyOutput @resolver(class: "\\Mageplaza\\CompanyAccountsGraphQl\\Model\\Resolver\\Company") @doc(description: "Query to get company info")
+    mpCompanyAccountsOrders: [OrdersOutput] @resolver(class: "\\Mageplaza\\CompanyAccountsGraphQl\\Model\\Resolver\\Orders") @doc(description: "Query to get orders of company")
+    mpCompanyAccountsUsers: [UsersOutput] @resolver(class: "\\Mageplaza\\CompanyAccountsGraphQl\\Model\\Resolver\\Users") @doc(description: "Query to get users of company")
+    mpCompanyAccountsUserRoles: [UserRolesOutput] @resolver(class: "\\Mageplaza\\CompanyAccountsGraphQl\\Model\\Resolver\\UserRoles") @doc(description: "Query to get user roles of company")
+    mpCompanyAccountsConfig: ConfigOutput @resolver(class: "\\Mageplaza\\CompanyAccountsGraphQl\\Model\\Resolver\\Config") @doc(description: "Query to get config")
 }
 
 type DownloadableOutput {
@@ -27,4 +31,115 @@ type DownloadableOutput {
     status: String @doc(description: "Status")
     download_url: String @doc(description: "Download URL")
     remaining_downloads: String @doc(description: "Remaining Downloads")
+}
+
+type CompanyOutput {
+    company_id: Int @doc(description: "Company ID")
+    customer_group_id: Int @doc(description: "Customer Group ID")
+    status: Int @doc(description: "Status")
+    administrator_id: Int @doc(description: "Administrator ID")
+    email: String @doc(description: "Email")
+    name: String @doc(description: "Name")
+    region: String @doc(description: "Region")
+    region_id: Int @doc(description: "Region ID")
+    sales_representative_id: Int @doc(description: "Sales Representative ID")
+    country_id: String @doc(description: "Country ID")
+    vat_id: String @doc(description: "VAT ID")
+    legal_name: String @doc(description: "Legal Name")
+    reseller_id: String @doc(description: "Reseller ID")
+    street: String @doc(description: "Street")
+    city: String @doc(description: "City")
+    postcode: String @doc(description: "Post Code")
+    telephone: String @doc(description: "Telephone")
+    created_at: String @doc(description: "Created At")
+    updated_at: String @doc(description: "Updated At")
+}
+
+type OrdersOutput {
+    id: Int @doc(description: "ID")
+    order_number: String @doc(description: "Order Number ID")
+    date: String @doc(description: "Date")
+    ship_to: String @doc(description: "Ship To")
+    grand_total: Float @doc(description: "Grand Total")
+    status: String @doc(description: "Status")
+    placed_by: String @doc(description: "Placed By")
+}
+
+type UsersOutput {
+    entity_id: Int @doc(description: "Entity ID")
+    firstname: String @doc(description: "First Name")
+    lastname: String @doc(description: "Last Name")
+    email: String @doc(description: "Email")
+    mpca_is_active: Boolean @doc(description: "Is Active")
+    mpca_role_id: Int @doc(description: "Role ID")
+    mpca_job_title: String @doc(description: "Job Title")
+    mpca_telephone: String @doc(description: "Telephone")
+}
+
+type UserRolesOutput {
+    role_id: Int @doc(description: "Role ID")
+    name: String @doc(description: "Name")
+    company_id: Int @doc(description: "Company ID")
+    allow_all: Boolean @doc(description: "Allow All")
+    order_quantity: Int @doc(description: "Order Quantity")
+    order_amount: Float @doc(description: "Order Amount")
+    created_at: String @doc(description: "Created At")
+    updated_at: String @doc(description: "Updated At")
+    user_rules: [UserRulesOutput] @doc(description: "User Rules")
+}
+
+type UserRulesOutput {
+    rule_id: Int @doc(description: "Rule ID")
+    role_id: Int @doc(description: "Role ID")
+    resource_id: String @doc(description: "Resource ID")
+    permission: String @doc(description: "Permission")
+    created_at: String @doc(description: "Created At")
+    updated_at: String @doc(description: "Updated At")
+}
+
+type ConfigOutput {
+    general: GeneralOutput @doc(description: "General Config")
+    email: EmailOutput @doc(description: "Email Config")
+}
+
+type GeneralOutput {
+    enabled: Boolean @doc(description: "Enabled")
+    customer_groups_allow: String @doc(description: "Customer Groups Allow")
+    auto_approve_company: Boolean @doc(description: "Auto Approve Company")
+    customer_groups_auto_approve: String @doc(description: "Customer Groups Auto Approve")
+    sub_account_after_remove_action: Int @doc(description: "Sub Account After Remove Action")
+    auto_add_address: Int @doc(description: "Auto Add Address")
+}
+
+type EmailOutput {
+    admin: AdminEmailOutput @doc(description: "Admin Email Config")
+    company_admin: CompanyAdminEmailOutput @doc(description: "Company Admin Email Config")
+    company_user: CompanyUserEmailOutput @doc(description: "Company User Email Config")
+}
+
+type AdminEmailOutput {
+    enabled: Boolean @doc(description: "")
+    sender: String @doc(description: "")
+    receiver: String @doc(description: "")
+    new_request_template: String @doc(description: "")
+}
+
+type CompanyAdminEmailOutput {
+    sender: String @doc(description: "")
+    status_change: Boolean @doc(description: "")
+    status_change_template: String @doc(description: "")
+    user_update: Boolean @doc(description: "")
+    user_update_template: String @doc(description: "")
+    new_order: Boolean @doc(description: "")
+    new_order_template: String @doc(description: "")
+    role_update: Boolean @doc(description: "")
+    role_update_template: String @doc(description: "")
+}
+
+type CompanyUserEmailOutput {
+    sender: String @doc(description: "")
+    status_change_template: String @doc(description: "")
+    user_update_template: String @doc(description: "")
+    new_order_template: String @doc(description: "")
+    role_update_template: String @doc(description: "")
 }
