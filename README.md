@@ -1,0 +1,1 @@
+# magento-company-accounts-graphql
