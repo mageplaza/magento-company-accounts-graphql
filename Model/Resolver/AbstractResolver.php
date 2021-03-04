@@ -32,6 +32,9 @@ use Mageplaza\CompanyAccounts\Model\Api\UsersManagement;
 use Mageplaza\CompanyAccounts\Model\Api\UserRolesManagement;
 use Magento\CustomerGraphQl\Model\Customer\GetCustomer;
 use Mageplaza\CompanyAccounts\Helper\Data as HelperData;
+use Mageplaza\CompanyAccounts\Model\CompanyFactory;
+use Mageplaza\CompanyAccounts\Model\RoleFactory;
+use Mageplaza\CompanyAccounts\Model\RuleFactory;
 
 /**
  * Class AbstractResolver
@@ -70,6 +73,21 @@ class AbstractResolver implements ResolverInterface
     protected $helperData;
 
     /**
+     * @var CompanyFactory
+     */
+    protected $companyFactory;
+
+    /**
+     * @var RoleFactory
+     */
+    protected $roleFactory;
+
+    /**
+     * @var RuleFactory
+     */
+    protected $ruleFactory;
+
+    /**
      * AbstractResolver constructor.
      *
      * @param CompanyManagement $companyManagement
@@ -77,19 +95,28 @@ class AbstractResolver implements ResolverInterface
      * @param UsersManagement $usersManagement
      * @param UserRolesManagement $userRolesManagement
      * @param HelperData $helperData
+     * @param CompanyFactory $companyFactory
+     * @param RoleFactory $roleFactory
+     * @param RuleFactory $ruleFactory
      */
     public function __construct(
         CompanyManagement $companyManagement,
         GetCustomer $getCustomer,
         UsersManagement $usersManagement,
         UserRolesManagement $userRolesManagement,
-        HelperData $helperData
+        HelperData $helperData,
+        CompanyFactory $companyFactory,
+        RoleFactory $roleFactory,
+        RuleFactory $ruleFactory
     ) {
         $this->companyManagement   = $companyManagement;
         $this->getCustomer         = $getCustomer;
         $this->usersManagement     = $usersManagement;
         $this->userRolesManagement = $userRolesManagement;
         $this->helperData          = $helperData;
+        $this->companyFactory      = $companyFactory;
+        $this->roleFactory         = $roleFactory;
+        $this->ruleFactory         = $ruleFactory;
     }
 
     /**

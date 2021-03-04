@@ -21,16 +21,17 @@
 
 declare(strict_types=1);
 
-namespace Mageplaza\CompanyAccountsGraphQl\Model\Resolver;
+namespace Mageplaza\CompanyAccountsGraphQl\Model\Resolver\Company;
 
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
+use Mageplaza\CompanyAccountsGraphQl\Model\Resolver\AbstractResolver;
 
 /**
- * Class Order
- * @package Mageplaza\CompanyAccountsGraphQl\Model\Resolver
+ * Class Save
+ * @package Mageplaza\CompanyAccountsGraphQl\Model\Resolver\Company
  */
-class Orders extends AbstractResolver
+class Save extends AbstractResolver
 {
     /**
      * @inheritdoc
@@ -39,6 +40,8 @@ class Orders extends AbstractResolver
     {
         parent::resolve($field, $context, $info, $value, $args);
 
-        return $this->companyManagement->getOrders($this->customerId);
+        $company = $this->companyFactory->create()->setData($args['input']);
+
+        return $this->companyManagement->saveCompany($this->customerId, $company);
     }
 }

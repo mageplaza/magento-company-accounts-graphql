@@ -21,14 +21,15 @@
 
 declare(strict_types=1);
 
-namespace Mageplaza\CompanyAccountsGraphQl\Model\Resolver;
+namespace Mageplaza\CompanyAccountsGraphQl\Model\Resolver\Company;
 
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
+use Mageplaza\CompanyAccountsGraphQl\Model\Resolver\AbstractResolver;
 
 /**
  * Class Company
- * @package Mageplaza\CompanyAccountsGraphQl\Model\Resolver
+ * @package Mageplaza\CompanyAccountsGraphQl\Model\Resolver\Company
  */
 class Company extends AbstractResolver
 {

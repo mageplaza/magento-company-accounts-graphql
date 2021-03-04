@@ -17,12 +17,87 @@
 # @license     https://www.mageplaza.com/LICENSE.txt
 
 type Query {
-    mpCompanyAccountsDownloadable: [DownloadableOutput] @resolver(class: "\\Mageplaza\\CompanyAccountsGraphQl\\Model\\Resolver\\Downloadable") @doc(description: "Query to get downloadable product of customer")
-    mpCompanyAccounts: CompanyOutput @resolver(class: "\\Mageplaza\\CompanyAccountsGraphQl\\Model\\Resolver\\Company") @doc(description: "Query to get company info")
-    mpCompanyAccountsOrders: [OrdersOutput] @resolver(class: "\\Mageplaza\\CompanyAccountsGraphQl\\Model\\Resolver\\Orders") @doc(description: "Query to get orders of company")
-    mpCompanyAccountsUsers: [UsersOutput] @resolver(class: "\\Mageplaza\\CompanyAccountsGraphQl\\Model\\Resolver\\Users") @doc(description: "Query to get users of company")
-    mpCompanyAccountsUserRoles: [UserRolesOutput] @resolver(class: "\\Mageplaza\\CompanyAccountsGraphQl\\Model\\Resolver\\UserRoles") @doc(description: "Query to get user roles of company")
-    mpCompanyAccountsConfig: ConfigOutput @resolver(class: "\\Mageplaza\\CompanyAccountsGraphQl\\Model\\Resolver\\Config") @doc(description: "Query to get config")
+    mpCompanyAccountsDownloadable: [DownloadableOutput] @resolver(class: "\\Mageplaza\\CompanyAccountsGraphQl\\Model\\Resolver\\Company\\Downloadable") @doc(description: "Query to get downloadable product of customer")
+    mpCompanyAccounts: CompanyOutput @resolver(class: "\\Mageplaza\\CompanyAccountsGraphQl\\Model\\Resolver\\Company\\Company") @doc(description: "Query to get company info")
+    mpCompanyAccountsOrders: [OrdersOutput] @resolver(class: "\\Mageplaza\\CompanyAccountsGraphQl\\Model\\Resolver\\Company\\Orders") @doc(description: "Query to get orders of company")
+    mpCompanyAccountsUsers: [UsersOutput] @resolver(class: "\\Mageplaza\\CompanyAccountsGraphQl\\Model\\Resolver\\User\\Users") @doc(description: "Query to get users of company")
+    mpCompanyAccountsUserRoles: [UserRolesOutput] @resolver(class: "\\Mageplaza\\CompanyAccountsGraphQl\\Model\\Resolver\\UserRole\\UserRoles") @doc(description: "Query to get user roles of company")
+    mpCompanyAccountsConfig: ConfigOutput @resolver(class: "\\Mageplaza\\CompanyAccountsGraphQl\\Model\\Resolver\\Company\\Config") @doc(description: "Query to get config")
+}
+
+type Mutation {
+    registerMpCompany(
+        input: CompanyInput! @doc(description: "Company Input")
+    ): CompanyOutput @resolver(class: "Mageplaza\\CompanyAccountsGraphQl\\Model\\Resolver\\Company\\Register") @doc(description: "Register the Company")
+    saveMpCompany(
+        input: CompanyInput! @doc(description: "Company Input")
+    ): CompanyOutput @resolver(class: "Mageplaza\\CompanyAccountsGraphQl\\Model\\Resolver\\Company\\Save") @doc(description: "Update the Company")
+    createMpCompanyUserRole(
+        input: UserRolesInput! @doc(description: "User Roles Input")
+        password: String! @doc(description: "Administrator Password")
+    ): UserRolesOutput @resolver(class: "\\Mageplaza\\CompanyAccountsGraphQl\\Model\\Resolver\\UserRole\\Create") @doc(description: "Create User Role")
+    saveMpCompanyUserRole(
+        role_id: Int! @doc(description: "Role ID")
+        input: UserRolesInput @doc(description: "User Roles Input")
+        password: String! @doc(description: "Administrator Password")
+    ): UserRolesOutput @resolver(class: "\\Mageplaza\\CompanyAccountsGraphQl\\Model\\Resolver\\UserRole\\Save") @doc(description: "Save User Role")
+    deleteMpCompanyUserRole(
+        role_id: Int! @doc(description: "Role ID")
+        password: String! @doc(description: "Administrator Password")
+    ): Boolean @resolver(class: "\\Mageplaza\\CompanyAccountsGraphQl\\Model\\Resolver\\UserRole\\Delete") @doc(description: "Delete User Role")
+    createMpCompanyUser(
+        input: UsersInput! @doc(description: "Users Input")
+        password: String! @doc(description: "Administrator Password")
+    ): UsersOutput @resolver(class: "\\Mageplaza\\CompanyAccountsGraphQl\\Model\\Resolver\\User\\Create") @doc(description: "Create User")
+    saveMpCompanyUser(
+        entity_id: Int! @doc(description: "User ID")
+        input: UsersInput @doc(description: "Users Input")
+        password: String! @doc(description: "Administrator Password")
+    ): UsersOutput @resolver(class: "\\Mageplaza\\CompanyAccountsGraphQl\\Model\\Resolver\\User\\Save") @doc(description: "Save User")
+    deleteMpCompanyUser(
+        entity_id: Int! @doc(description: "User ID")
+        password: String! @doc(description: "Administrator Password")
+    ): Boolean @resolver(class: "\\Mageplaza\\CompanyAccountsGraphQl\\Model\\Resolver\\User\\Delete") @doc(description: "Delete User")
+    confirmMpCompanyCreateUser(
+        token: String! @doc(description: "User ID")
+    ): Boolean @resolver(class: "\\Mageplaza\\CompanyAccountsGraphQl\\Model\\Resolver\\User\\Confirm") @doc(description: "Confirm User")
+}
+
+input CompanyInput {
+    name: String!
+    legal_name: String
+    email: String!
+    vat_id: String
+    reseller_id: String
+    street: String!
+    city: String!
+    region_id: Int
+    country_id: String!
+    postcode: String!
+    telephone: String!
+}
+
+input UserRolesInput {
+    name: String!
+    allow_all: Boolean
+    order_quantity: Int
+    order_amount: Float
+    user_rules: [RulesInput]
+}
+
+input RulesInput {
+    resource_id: String
+    permission: String
+}
+
+input UsersInput {
+    firstname: String!
+    lastname: String!
+    email: String!
+    mpca_is_active: Boolean
+    mpca_role_id: Int
+    mpca_job_title: String
+    mpca_telephone: String
 }
 
 type DownloadableOutput {

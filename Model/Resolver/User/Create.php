@@ -21,16 +21,18 @@
 
 declare(strict_types=1);
 
-namespace Mageplaza\CompanyAccountsGraphQl\Model\Resolver;
+namespace Mageplaza\CompanyAccountsGraphQl\Model\Resolver\User;
 
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
+use Mageplaza\CompanyAccounts\Model\Api\Data\Users;
+use Mageplaza\CompanyAccountsGraphQl\Model\Resolver\AbstractResolver;
 
 /**
- * Class Downloadable
- * @package Mageplaza\CompanyAccountsGraphQl\Model\Resolver
+ * Class Create
+ * @package Mageplaza\CompanyAccountsGraphQl\Model\Resolver\User
  */
-class Downloadable extends AbstractResolver
+class Create extends AbstractResolver
 {
     /**
      * @inheritdoc
@@ -39,6 +41,8 @@ class Downloadable extends AbstractResolver
     {
         parent::resolve($field, $context, $info, $value, $args);
 
-        return $this->companyManagement->getDownloadableItems($this->customerId);
+        $user = new Users($args['input']);
+
+        return $this->usersManagement->createUsers($this->customerId, $user, $args['password']);
     }
 }

@@ -21,16 +21,17 @@
 
 declare(strict_types=1);
 
-namespace Mageplaza\CompanyAccountsGraphQl\Model\Resolver;
+namespace Mageplaza\CompanyAccountsGraphQl\Model\Resolver\User;
 
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
+use Mageplaza\CompanyAccountsGraphQl\Model\Resolver\AbstractResolver;
 
 /**
- * Class UserRoles
- * @package Mageplaza\CompanyAccountsGraphQl\Model\Resolver
+ * Class Confirm
+ * @package Mageplaza\CompanyAccountsGraphQl\Model\Resolver\User
  */
-class UserRoles extends AbstractResolver
+class Confirm extends AbstractResolver
 {
     /**
      * @inheritdoc
@@ -39,6 +40,6 @@ class UserRoles extends AbstractResolver
     {
         parent::resolve($field, $context, $info, $value, $args);
 
-        return $this->userRolesManagement->getUserRoles($this->customerId);
+        return $this->usersManagement->confirmUsers($this->customerId, $args['token']);
     }
 }

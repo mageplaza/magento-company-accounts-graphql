@@ -21,16 +21,18 @@
 
 declare(strict_types=1);
 
-namespace Mageplaza\CompanyAccountsGraphQl\Model\Resolver;
+namespace Mageplaza\CompanyAccountsGraphQl\Model\Resolver\User;
 
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
+use Mageplaza\CompanyAccounts\Model\Api\Data\Users;
+use Mageplaza\CompanyAccountsGraphQl\Model\Resolver\AbstractResolver;
 
 /**
- * Class Config
- * @package Mageplaza\CompanyAccountsGraphQl\Model\Resolver
+ * Class Save
+ * @package Mageplaza\CompanyAccountsGraphQl\Model\Resolver\User
  */
-class Config extends AbstractResolver
+class Save extends AbstractResolver
 {
     /**
      * @inheritdoc
@@ -39,6 +41,9 @@ class Config extends AbstractResolver
     {
         parent::resolve($field, $context, $info, $value, $args);
 
-        return $this->companyManagement->getConfig();
+        $args['input']['entity_id'] = $args['entity_id'];
+        $user                       = new Users($args['input']);
+
+        return $this->usersManagement->saveUsers($this->customerId, $user, $args['password']);
     }
 }
