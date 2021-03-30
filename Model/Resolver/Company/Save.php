@@ -23,7 +23,9 @@ declare(strict_types=1);
 
 namespace Mageplaza\CompanyAccountsGraphQl\Model\Resolver\Company;
 
+use Exception;
 use Magento\Framework\GraphQl\Config\Element\Field;
+use Magento\Framework\GraphQl\Exception\GraphQlInputException;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Mageplaza\CompanyAccountsGraphQl\Model\Resolver\AbstractResolver;
 
@@ -42,6 +44,12 @@ class Save extends AbstractResolver
 
         $company = $this->companyFactory->create()->setData($args['input']);
 
-        return $this->companyManagement->saveCompany($this->customerId, $company);
+        try {
+            $result = $this->companyManagement->saveCompany($this->customerId, $company);
+        } catch (Exception $e) {
+            throw new GraphQlInputException(__($e->getMessage()));
+        }
+
+        return $result;
     }
 }

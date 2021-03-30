@@ -23,7 +23,9 @@ declare(strict_types=1);
 
 namespace Mageplaza\CompanyAccountsGraphQl\Model\Resolver\UserRole;
 
+use Exception;
 use Magento\Framework\GraphQl\Config\Element\Field;
+use Magento\Framework\GraphQl\Exception\GraphQlInputException;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 
 /**
@@ -41,6 +43,12 @@ class Save extends Create
 
         $this->role->setRoleId($args['role_id']);
 
-        return $this->userRolesManagement->saveUserRoles($this->customerId, $this->role, $args['password']);
+        try {
+            $result = $this->userRolesManagement->saveUserRoles($this->customerId, $this->role, $args['password']);
+        } catch (Exception $e) {
+            throw new GraphQlInputException(__($e->getMessage()));
+        }
+
+        return $result;
     }
 }

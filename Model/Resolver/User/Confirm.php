@@ -23,7 +23,9 @@ declare(strict_types=1);
 
 namespace Mageplaza\CompanyAccountsGraphQl\Model\Resolver\User;
 
+use Exception;
 use Magento\Framework\GraphQl\Config\Element\Field;
+use Magento\Framework\GraphQl\Exception\GraphQlInputException;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Mageplaza\CompanyAccountsGraphQl\Model\Resolver\AbstractResolver;
 
@@ -40,6 +42,12 @@ class Confirm extends AbstractResolver
     {
         parent::resolve($field, $context, $info, $value, $args);
 
-        return $this->usersManagement->confirmUsers($this->customerId, $args['token']);
+        try {
+            $result = $this->usersManagement->confirmUsers($this->customerId, $args['token']);
+        } catch (Exception $e) {
+            throw new GraphQlInputException(__($e->getMessage()));
+        }
+
+        return $result;
     }
 }

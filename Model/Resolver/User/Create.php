@@ -23,7 +23,9 @@ declare(strict_types=1);
 
 namespace Mageplaza\CompanyAccountsGraphQl\Model\Resolver\User;
 
+use Exception;
 use Magento\Framework\GraphQl\Config\Element\Field;
+use Magento\Framework\GraphQl\Exception\GraphQlInputException;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Mageplaza\CompanyAccounts\Model\Api\Data\Users;
 use Mageplaza\CompanyAccountsGraphQl\Model\Resolver\AbstractResolver;
@@ -43,6 +45,12 @@ class Create extends AbstractResolver
 
         $user = new Users($args['input']);
 
-        return $this->usersManagement->createUsers($this->customerId, $user, $args['password']);
+        try {
+            $result = $this->usersManagement->createUsers($this->customerId, $user, $args['password']);
+        } catch (Exception $e) {
+            throw new GraphQlInputException(__($e->getMessage()));
+        }
+
+        return $result;
     }
 }
