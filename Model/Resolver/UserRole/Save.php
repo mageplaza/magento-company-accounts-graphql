@@ -27,12 +27,14 @@ use Exception;
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Exception\GraphQlInputException;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
+use Mageplaza\CompanyAccounts\Api\Data\UserRolesInterface;
+use Mageplaza\CompanyAccountsGraphQl\Model\Resolver\AbstractResolver;
 
 /**
  * Class Save
  * @package Mageplaza\CompanyAccountsGraphQl\Model\Resolver\UserRole
  */
-class Save extends Create
+class Save extends AbstractResolver
 {
     /**
      * @inheritdoc
@@ -40,8 +42,15 @@ class Save extends Create
     public function resolve(Field $field, $context, ResolveInfo $info, array $value = null, array $args = null)
     {
         parent::resolve($field, $context, $info, $value, $args);
+        $userRule = $args['input'][UserRolesInterface::USER_RULES];
 
-        $this->role->setRoleId($args['role_id']);
+        foreach ($userRule as $key => $rule) {
+            $modelRule      = $this->ruleFactory->create()->setData($rule);
+            $userRule[$key] = $modelRule;
+        }
+        $args['input']['role_id'] = $args['role_id'];
+        $args['input'][UserRolesInterface::USER_RULES] = $userRule;
+        $this->role                                    = $this->roleFactory->create()->load($args['role_id'])->setData($args['input']);
 
         try {
             $result = $this->userRolesManagement->saveUserRoles($this->customerId, $this->role, $args['password']);
