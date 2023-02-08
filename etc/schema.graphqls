@@ -71,6 +71,7 @@ input CompanyInput {
     reseller_id: String
     street: String!
     city: String!
+    region: String
     region_id: Int
     country_id: String!
     postcode: String!
