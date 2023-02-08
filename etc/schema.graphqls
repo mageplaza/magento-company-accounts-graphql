@@ -71,7 +71,8 @@ input CompanyInput {
     reseller_id: String
     street: String!
     city: String!
-    region_id: String!
+    region: string!
+    region_id: int!
     country_id: String!
     postcode: String!
     telephone: String!
@@ -116,7 +117,7 @@ type CompanyOutput {
     email: String @doc(description: "Email")
     name: String @doc(description: "Name")
     region: String @doc(description: "Region")
-    region_id: String @doc(description: "Region ID")
+    region_id: Int @doc(description: "Region ID")
     sales_representative_id: Int @doc(description: "Sales Representative ID")
     country_id: String @doc(description: "Country ID")
     vat_id: String @doc(description: "VAT ID")
