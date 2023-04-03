@@ -97,6 +97,7 @@ input UsersInput {
     email: String!
     mpca_is_active: Boolean
     mpca_role_id: Int
+    mpca_role: UserRolesInput
     mpca_job_title: String
     mpca_telephone: String
 }
